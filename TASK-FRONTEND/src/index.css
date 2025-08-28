@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-jira-background-primary: #1D2125;
+  --color-jira-background-secondary: #22272B;
+  --color-jira-background-tertiary: #2C333A;
+  --color-jira-background-clean: #ecfeff;
+  --color-jira-border-dark: #38414A;
+  --color-jira-text-primary: #FFFAFA;
+  --color-jira-text-secondary: #9FADBC;
+  --color-jira-text-tertiary: #738496;
+  --color-jira-text-disabled: #596773;
+  --color-jira-accent-blue: #1D7AFC;
+  --color-jira-accent-blue-hover: #0C66E4;
+  --color-jira-accent-red: #E2483D;
+  --color-jira-accent-green: #2ABB7F;
+  --color-jira-accent-yellow: #CF9F02;
+}
