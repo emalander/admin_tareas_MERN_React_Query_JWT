@@ -2,35 +2,29 @@
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
-import { toast } from 'react-toastify'
-import { Link } from "react-router-dom"
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { deleteProject, getProjects } from "@/api/ProjectAPI"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useQuery} from '@tanstack/react-query'
+import { getProjects } from "@/api/ProjectAPI"
 import ButtonLink from "@/components/ButtonLink"
 import { useAuth } from '@/hooks/useAuth'
 import { isManager } from '@/utils/policies'
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal'
 
 export default function DashboardView() {
 
+  const location = useLocation ()
+  const navigate = useNavigate()
   const {data:user, isLoading:authLoading} = useAuth()
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['projects'],
     queryFn: getProjects
   })
 
-  const queryClient = useQueryClient()
-  const {mutate} = useMutation({
-    mutationFn:deleteProject,
-    onError:(error)=>{
-      toast.error(error.message)
-    },
-    onSuccess:(data)=> {
-      toast.success(data)
-      queryClient.invalidateQueries({queryKey:['projects']})
-    }
-  })
-
   if (isLoading && authLoading) return 'Cargando...'
+  if (error) {
+    // Si hay un error, puedes manejarlo aquí
+    return <div>Error al cargar los proyectos: {error.message}</div>;
+  }
 
   const colorShades = [
     'bg-jira-background-tertiary',
@@ -103,7 +97,7 @@ export default function DashboardView() {
                               <button
                                 type='button'
                                 className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                onClick={() => mutate(project._id)}
+                                onClick={() => navigate(location.pathname + `?deleteProject=${project._id}` )}
                               >
                                 Eliminar Proyecto
                               </button>
@@ -119,11 +113,13 @@ export default function DashboardView() {
           })}
         </ul>
       ) : (
-        <p className="text-center py-20 "> No hay proyectos {''}
-          <ButtonLink textButton="Crear proyecto" LinkButton='/projects/create'/>
-        </p>
-      )}
+        
+        <nav className="mt-10 flex flex-col space-y-2 items-center bg-jira-background-tertiary p-1 rounded-2xl">
+        <p className="text-2xl tracking-widest text-gray-300 font-normal">No hay proyectos aún</p>
 
+      </nav>
+      )}
+      <DeleteProjectModal/>
     </>
 
   )

@@ -1,4 +1,4 @@
-import { getProjectsById } from '@/api/ProjectAPI'
+import { getFullProjectDetail } from '@/api/ProjectAPI'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import AddTaskModal from '@/components/tasks/AddTaskModal'
@@ -19,7 +19,7 @@ export default function ProjectDetailsView() {
   const projectId = params.projectId!
   const { data, isLoading, isError } = useQuery({
     queryKey: ['project', projectId],
-    queryFn: () => getProjectsById(projectId),
+    queryFn: () => getFullProjectDetail(projectId),
     retry: false
   })
 
@@ -37,17 +37,11 @@ export default function ProjectDetailsView() {
         <nav className='my-5 flex gap-3'>
           <button
             type='button'
-            className='bg-purple-400 hover:bg-purple-500 
-                    px-10 py-3 text-white text-xl font-bold 
-                    cursor-pointer 
-                    transition-colors'
+            className="bg-jira-accent-blue hover:bg-jira-accent-blue-hover p-3 text-white text-1xl font-bold tracking-wide cursor-pointer"
             onClick={() => navigate(location.pathname + '?newTask=true')}
           >Agregar tarea</button>
           <Link to={'team'}
-            className='bg-purple-400 hover:bg-purple-500 
-            px-10 py-3 text-white text-xl font-bold 
-            cursor-pointer 
-            transition-colors'>Colaboradores</Link>
+            className="bg-jira-accent-blue hover:bg-jira-accent-blue-hover p-3 text-white text-1xl font-bold tracking-wide cursor-pointer">Colaboradores</Link>
         </nav>
       )}
       <TaskList

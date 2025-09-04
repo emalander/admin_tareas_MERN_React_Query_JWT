@@ -1,6 +1,6 @@
 import type { UseFormRegister, FieldErrors } from "react-hook-form"
 import ErrorMessage from "../ErrorMessage"
-import {ProjectFormData} from 'types'
+import type {ProjectFormData} from 'types'
 
 type ProjectFormProps = {
     register: UseFormRegister<ProjectFormData>

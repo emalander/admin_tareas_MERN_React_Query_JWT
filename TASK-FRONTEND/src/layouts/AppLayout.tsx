@@ -1,7 +1,6 @@
-import { Link, Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Logo from "@/components/Logo"
 import NavMenu from "@/components/NavMenu"
 import { useAuth } from "@/hooks/useAuth"
 
@@ -48,10 +47,14 @@ export default function AppLayout() {
               flex flex-col lg:flex-row
               justify-between 
               items-center">
-             
-            <NavMenu name={data.name}>
-              
-            </NavMenu>
+            <div className="ml-5 mt-5">
+                <img src="../../estadistica_1.png" alt="Logo" className="h-20 w-auto" />
+            </div>
+            <div className="mr-5">
+              <NavMenu name={data.name}>
+                
+              </NavMenu>
+            </div>
           </div>
         </header>
         <section className="max-w-screen-2xl mx-auto mt-10 p-5">

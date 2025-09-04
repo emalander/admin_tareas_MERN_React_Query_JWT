@@ -5,7 +5,6 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { Link, useNavigate  } from "react-router-dom";
 import { autenticateUser } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
-import Logo from "@/components/Logo";
 
 export default function LoginView() {
 

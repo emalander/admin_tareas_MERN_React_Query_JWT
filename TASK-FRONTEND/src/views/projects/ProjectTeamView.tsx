@@ -3,12 +3,15 @@ import { Menu, Transition } from "@headlessui/react";
 
 import { getProjectTeam, removeUserFromProject } from "@/api/TeamAPI";
 import AddMemberModal from "@/components/team/AddMemberModal";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { toast } from "react-toastify";
+import type { User } from "@/types/index";
 
 export default function ProjectTeam() {
+
+  const queryClient = useQueryClient()
 
   const navigate = useNavigate()
   const params = useParams()
@@ -37,34 +40,28 @@ export default function ProjectTeam() {
 
   if (data) return (
     <>
-      <h1 className='text-5xl font-black'>Administrar equipo</h1>
-      <p className='text-2xl font-light text-gray-500 mt-5'>Distribuye las tareas</p>
+      <h1 className="text-3xl font-medium text-white tracking-widest">Administrar equipo</h1>
+      <p className="text-2xl font-light text-white mt-5 tracking-widest">Distribuye las tareas</p>
       <nav className='my-5 flex gap-3'>
         <button
           type='button'
-          className='bg-purple-400 hover:bg-purple-500 
-                    px-10 py-3 text-white text-xl font-bold 
-                    cursor-pointer 
-                    transition-colors'
+          className="bg-jira-accent-blue hover:bg-jira-accent-blue-hover p-3 text-white text-1xl font-bold tracking-wide cursor-pointer"
           onClick={() => navigate(location.pathname + '?addMember=true')}
         >Agregar colaborador</button>
         <Link to={`/projects/${projectId}`}
-          className='bg-purple-400 hover:bg-purple-500 
-            px-10 py-3 text-white text-xl font-bold 
-            cursor-pointer 
-            transition-colors'>Volver a proyectos</Link>
+          className="bg-jira-accent-blue hover:bg-jira-accent-blue-hover p-3 text-white text-1xl font-bold tracking-wide cursor-pointer">Volver a proyectos</Link>
       </nav>
-      <h2 className="text-5xl font-black my-10">Miembros actuales</h2>
+      <h2 className="text-3xl font-medium text-white tracking-widest">Miembros actuales</h2>
       {data.length ? (
-        <ul role="list" className="divide-y divide-gray-100 border border-gray-100 mt-10 bg-white shadow-lg">
-          {data?.map((member) => (
+        <ul role="list" className="divide-y divide-gray-100 border border-gray-500 mt-10 bg-white shadow-lg">
+          {data?.map((member:User) => (
             <li key={member._id} className="flex justify-between gap-x-6 px-5 py-10">
-              <div className="flex min-w-0 gap-x-4">
-                <div className="min-w-0 flex-auto space-y-2">
-                  <p className="text-2xl font-black text-gray-600">
+              <div className="flex min-w-0 gap-x-2">
+                <div className="min-w-0 flex-auto space-y-1">
+                  <p className="text-3xl font-bold text-gray-600 ">
                     {member.name}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-2xl text-gray-400">
                     {member.email}
                   </p>
                 </div>
