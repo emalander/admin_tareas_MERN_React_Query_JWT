@@ -36,27 +36,31 @@ router.get(
   handleInputErrors,
   ProjectController.getProjectById
 );
+// ROUTES FOR TASKS
+
+router.param('projectId', projectExists)
+
 // ACTUALIZAR 
 router.put(
-  '/:id',
-  param('id').isMongoId().withMessage('ID no válido'),
+  '/:projectId',
+  param('projectId').isMongoId().withMessage('ID no válido'),
   body('projectName').notEmpty().withMessage('El nombre del proyecto es obligatorio'),
   body('clientName').notEmpty().withMessage('El nombre del cliente es obligatorio'),
   body('description').notEmpty().withMessage('La descripción es obligatoria'),
   handleInputErrors,
+  hasAutorization,
   ProjectController.updateProject
 );
 // BORRAR
 router.delete(
-  '/:id',
-  param('id').isMongoId().withMessage('ID no válido'),
+  '/:projectId',
+  param('projectId').isMongoId().withMessage('ID no válido'),
   handleInputErrors,
+  hasAutorization,
   ProjectController.deleteProject
 );
 
-// ROUTES FOR TASKS
 
-router.param('projectId', projectExists)
 
 router.post('/:projectId/tasks',
   body('name').notEmpty().withMessage('El nombre de la tarea es obligatorio'),
@@ -136,6 +140,12 @@ router.post('/:projectId/tasks/:TaskId/notes',
 
 router.get('/:projectId/tasks/:TaskId/notes', 
   NoteController.getNotes
+)
+
+router.delete('/:projectId/tasks/:TaskId/notes/:noteId',
+    param('noteId').isMongoId().withMessage('ID No Válido'),
+    handleInputErrors,
+    NoteController.deleteNote
 )
 
 export default router;
